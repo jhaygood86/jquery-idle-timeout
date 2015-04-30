@@ -114,7 +114,7 @@
 				return;
 			}
 
-			if(keepAliveURL != null && keepAliveURL.length > 0){
+			if(options.keepAliveURL != null && options.keepAliveURL.length > 0){
 			
 				$.ajax({
 					timeout: options.AJAXTimeout,
