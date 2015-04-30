@@ -113,24 +113,32 @@
 				options.onAbort.call( this.warning[0] );
 				return;
 			}
+
+			if(keepAliveURL != null && keepAliveURL.length > 0){
 			
-			$.ajax({
-				timeout: options.AJAXTimeout,
-				url: options.keepAliveURL,
-				error: function(){
-					self.failedRequests--;
-				},
-				success: function(response){
-					if($.trim(response) !== options.serverResponseEquals){
+				$.ajax({
+					timeout: options.AJAXTimeout,
+					url: options.keepAliveURL,
+					error: function(){
 						self.failedRequests--;
+					},
+					success: function(response){
+						if($.trim(response) !== options.serverResponseEquals){
+							self.failedRequests--;
+						}
+					},
+					complete: function(){
+						if( recurse ){
+							self._startTimer();
+						}
 					}
-				},
-				complete: function(){
-					if( recurse ){
-						self._startTimer();
-					}
-				}
-			});
+				});
+
+			} else {
+				if( recurse ){
+					self._startTimer();
+				}	
+			}
 		}
 	};
 	
